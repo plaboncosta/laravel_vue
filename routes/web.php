@@ -1,7 +1,5 @@
 <?php
 
-use App\Customer;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,12 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
 Route::get('/customer', 'CustomerController@index')->name('customer.index');
-Route::post('/customer/post', 'CustomerController@post')->name('customer.post');
-Route::get('/customer-list', 'CustomerController@customerList')->name('customer.list');
-Route::get('/customer-edit/{id}', 'CustomerController@customerEdit')->name('customer.edit');
-Route::post('/customer-update/{id}', 'CustomerController@customerUpdate')->name( 'customer.update');
-Route::post('/customer-delete/{id}', 'CustomerController@customerDelete')->name('customer.delete');
-
-Route::get('/debug', 'DebugController@debug')->name('debug');
-
+Route::post('/customer/data-save', 'CustomerController@dataSave')->name('customer.data');
+Route::get('/customer/{id}', 'CustomerController@edit')->name('customer.edit');
+Route::post('customer/update/{id}', 'CustomerController@update')->name('customer.update');
+Route::get('/customer/delete/{id}', 'CustomerController@delete')->name('customer.delete');

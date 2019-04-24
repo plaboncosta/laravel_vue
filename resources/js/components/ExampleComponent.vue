@@ -2,9 +2,13 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-            </div>
-            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">Example Component</div>
 
+                    <div class="card-body">
+                        I'm an example component.
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -12,31 +16,8 @@
 
 <script>
     export default {
-
-        data() {
-            return {
-                customers: {},
-            }
-        },
-
         mounted() {
-            this.getData();
-        },
-
-        methods: {
-            getData() {
-                axios.get('/customer-list')
-                    .then(response => {
-                        this.customers = response.data;
-                    })
-                    .then(function (response) {
-                        console.log(response);
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            }
-        },
+            console.log('Component mounted.')
+        }
     }
-
 </script>

@@ -1,30 +1,57 @@
 <template>
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row">
             <div class="col-md-2"></div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <form method="post">
-                            <div class="form-group">
-                                <label for="name">Name:</label>
-                                <input v-model="name" type="name" class="form-control" id="name">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email:</label>
-                                <input v-model="email" type="email" class="form-control" id="email">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Phone:</label>
-                                <input v-model="phone" type="phone" class="form-control" id="phone">
-                            </div>
-                            <div class="form-group">
-                                <label for="address">Address:</label>
-                                <input v-model="address" type="address" class="form-control" id="address">
-                            </div>
-                            <button @click.prevent="customerDataSave()" type="submit" class="btn btn-info">Save</button>
-                        </form>
+            <div class="col-md-8">
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" v-model="name" class="form-control">
                     </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" id="email" v-model="email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="text" id="phone" v-model="phone" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" v-model="address" class="form-control">
+                    </div>
+                    <input @click.prevent="customerDataSave" type="submit" class="btn btn-info" value="Save">
+                </form>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div style="width: 100%;" class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>SERIAL NO.</th>
+                            <th>NAME</th>
+                            <th>EMAIL</th>
+                            <th>PHONE</th>
+                            <th>ADDRESS</th>
+                            <td>ACTION</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(customer, index) in customers" :key="index">
+                            <td>{{ index+1 }}</td>
+                            <td>{{ customer.name }}</td>
+                            <td>{{ customer.email }}</td>
+                            <td>{{ customer.phone }}</td>
+                            <td>{{ customer.address }}</td>
+                            <td>
+                                <a :href=" 'customer/' + customer.id" class="btn btn-info">EDIT</a>
+                                <a href="#" v-on:click="customerDelete(customer.id)"class="btn btn-danger">DELETE</a>
+                            </td>
+                        </tr>
+                    </tbody>
                 </div>
             </div>
             <div class="col-md-2"></div>
@@ -35,9 +62,10 @@
 <script>
     export default {
 
+        props: ['customers'],
+
         data(){
             return {
-                posts:{},
                 name: '',
                 email: '',
                 phone: '',
@@ -45,40 +73,38 @@
             }
         },
 
-        mounted() {
-            this.getData();
-        },
-
         methods: {
-
             customerDataSave(){
-                axios.post('/customer/post', {
+                axios.post('/customer/data-save', {
                     name: this.name,
                     email: this.email,
                     phone: this.phone,
                     address: this.address,
                 })
-                .then(function (response) {
-                    console.log(response, 'Well Done');
+                .then(function(response){
+                    console.log(response);
                     location.reload();
                 })
-                .catch(function (error) {
+                .then(function(error){
                     console.log(error);
                 });
             },
 
-            getData(){
-                axios.get('https://jsonplaceholder.typicode.com/posts')
-                    .then(response => {
-                        this.posts = response.data;
-                    })
-                    .then(function (response) {
-                        console.log(response);
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+
+            customerDelete(id){
+                axios.get('/customer/delete/' + id)
+                .then(function(response){
+                    console.log(response);
+                    location.reload();
+                })
+                .then(function(error){
+                    console.log(error)
+                })
             }
         },
+
+        mounted() {
+            console.log('Component mounted.')
+        }
     }
 </script>

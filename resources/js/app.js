@@ -22,9 +22,7 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('customer-component', require('./components/CustomerComponent.vue').default);
-Vue.component('preview-customer-component', require('./components/PreviewComponent.vue').default);
-Vue.component('customer-edit-component', require('./components/CustomerEditComponent.vue').default);
-
+Vue.component('customer-edit-component', require('./components/EditComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
